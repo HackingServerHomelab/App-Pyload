@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  pyload:
+    image: linuxserver/pyload:latest
+    container_name: pyload
+    hostname: pyload
+    restart: unless-stopped
+    volumes:
+      - ../Data/config:/config
+      - ../Data/downloads:/downloads
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    labels:
+      # Traefik Labels
+      - "traefik.enable=true"
+      # HTTPS Labels
+      - "traefik.http.routers.pyload.rule=Host(`localhost`)" # Domain Name
+      - "traefik.http.routers.pyload.entrypoints=web-secure"
+      - "traefik.http.routers.pyload.middlewares=default-headers@file"
+      - "traefik.http.routers.pyload.service=pyload"
+      - "traefik.http.routers.pyload.tls=true"
+      - "traefik.http.services.pyload.loadbalancer.server.port=8000" # Proxied Port
