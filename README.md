@@ -16,3 +16,4 @@
 ## First Time Setup
 
 1. Visit <https://your-ip>
+2. Log in with the default credentials `admin:password`
